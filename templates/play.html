@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic-Tac-Toe</title>
+</head>
+
+<body>
+{% block content %}
+<h1>Play Tic-Tac-Toe</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p> {{ form.i.label }} {{ form.i(size=2) }}
+        {{ form.j.label }} {{ form.j(size=2) }}
+        {{ form.submit() }}</p>
+</form>
+
+<!-- Error reporting -->
+{% if form.i.errors %}
+<ul class="errors">
+    {% for error in form.i.errors %}
+    <li>i: {{ error }}, must be between 0 and 3</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if form.j.errors %}
+<ul class="errors">
+    {% for error in form.j.errors %}
+    <li>j: {{ error }}, must be between 0 and 3</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if already_play and form.i.data is not none and form.j.data is not none %}
+<ul class="errors">
+    <li>The combination {{ form.i.data }}, {{ form.j.data }} was already played.</li>
+</ul>
+{% endif %}
+
+<!-- Tic-Tac-Toe board -->
+<table>
+    {% for i in range(0, 3) %}
+    <tr>
+        {% for j in range(0, 3) %}
+        <td>
+            {% if state[i][j] == 'P' %} P {% endif %}
+            {% if state[i][j] == 'C' %} C {% endif %}
+            {% if state[i][j] == '' %} E {% endif %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+</body>
+</html>
